@@ -1,3 +1,2 @@
-Any invoice, sale order, purchase order or expense using a product from
-that brand will pick up its analytic account automatically, merged with
-whatever other rules also apply.
+Add a product of the brand to an invoice, a sale order, a purchase order or
+an expense: the line gets the analytic account of the brand.

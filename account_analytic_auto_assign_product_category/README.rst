@@ -32,9 +32,12 @@ Account Analytic Auto Assign Product Category
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Extends ``account_analytic_auto_assign`` so its rules can also match by
-**product category**, driven by a required analytic account field
-directly on the product category, instead of a rule created by hand.
+Makes the native analytic distribution models with a **Product
+Category** also apply to the products of its subcategories.
+
+When several categories of the same branch have a model for the same
+analytic plan, the closest category to the product wins (within the same
+sequence).
 
 **Table of contents**
 
@@ -44,15 +47,17 @@ directly on the product category, instead of a rule created by hand.
 Configuration
 =============
 
-Go to any Product Category and fill in the (now required) **Analytic
-Account** field.
+1. Go to *Accounting > Configuration > Analytic Distribution Models*.
+2. Create a model with a parent product category, for example *All /
+   Saleable*, and the analytic account of the business line.
+3. Create more specific models for subcategories only where they differ.
 
 Usage
 =====
 
-Any invoice, sale, purchase or expense line using a product from that
-category will pick up its analytic account automatically, merged with
-whatever other rules also apply.
+Any invoice, sale, purchase or expense line with a product of the
+category or of one of its subcategories gets the analytic account of the
+model.
 
 Bug Tracker
 ===========

@@ -375,9 +375,11 @@ ul.auto-toc {
 !! source digest: sha256:d163ebc8c1d1404197e677910ad1a10499bc60184cd0da82991591d1febdd360
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/account-analytic/tree/19.0/account_analytic_auto_assign_product_category"><img alt="OCA/account-analytic" src="https://img.shields.io/badge/github-OCA%2Faccount--analytic-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/account-analytic-19-0/account-analytic-19-0-account_analytic_auto_assign_product_category"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/account-analytic&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Extends <tt class="docutils literal">account_analytic_auto_assign</tt> so its rules can also match by
-<strong>product category</strong>, driven by a required analytic account field
-directly on the product category, instead of a rule created by hand.</p>
+<p>Makes the native analytic distribution models with a <strong>Product
+Category</strong> also apply to the products of its subcategories.</p>
+<p>When several categories of the same branch have a model for the same
+analytic plan, the closest category to the product wins (within the same
+sequence).</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -392,14 +394,18 @@ directly on the product category, instead of a rule created by hand.</p>
 </div>
 <div class="section" id="configuration">
 <h2><a class="toc-backref" href="#toc-entry-1">Configuration</a></h2>
-<p>Go to any Product Category and fill in the (now required) <strong>Analytic
-Account</strong> field.</p>
+<ol class="arabic simple">
+<li>Go to <em>Accounting &gt; Configuration &gt; Analytic Distribution Models</em>.</li>
+<li>Create a model with a parent product category, for example <em>All /
+Saleable</em>, and the analytic account of the business line.</li>
+<li>Create more specific models for subcategories only where they differ.</li>
+</ol>
 </div>
 <div class="section" id="usage">
 <h2><a class="toc-backref" href="#toc-entry-2">Usage</a></h2>
-<p>Any invoice, sale, purchase or expense line using a product from that
-category will pick up its analytic account automatically, merged with
-whatever other rules also apply.</p>
+<p>Any invoice, sale, purchase or expense line with a product of the
+category or of one of its subcategories gets the analytic account of the
+model.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h2><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h2>

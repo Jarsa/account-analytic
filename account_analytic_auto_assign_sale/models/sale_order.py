@@ -11,6 +11,11 @@ class SaleOrder(models.Model):
         comodel_name="account.analytic.account",
         string="Project",
         check_company=True,
-        help="Applied to every line of this order, and carried over to"
-        " the resulting invoice.",
+        index="btree_not_null",
+        help="Applied to every line of this order and to its invoices.",
     )
+
+    def _prepare_invoice(self):
+        vals = super()._prepare_invoice()
+        vals["analytic_account_id"] = self.analytic_account_id.id
+        return vals

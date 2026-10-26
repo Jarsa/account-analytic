@@ -6,7 +6,10 @@
         <field name="inherit_id" ref="sale.view_order_form" />
         <field name="arch" type="xml">
             <field name="team_id" position="after">
-                <field name="analytic_account_id" />
+                <field
+                    name="analytic_account_id"
+                    groups="analytic.group_analytic_accounting"
+                />
             </field>
         </field>
     </record>

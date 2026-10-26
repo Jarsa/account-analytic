@@ -1,7 +1,9 @@
-Extends `account_analytic_auto_assign` so its rules can also match by
-**operating unit** (branch), read from `operating_unit_id` on invoice/bill
-lines and on sale order lines.
+Adds the **Operating Unit** as a criterion of the native analytic
+distribution models (Accounting > Configuration > Analytic Distribution
+Models).
 
-Purchases are not covered: as of this writing there is no
-`purchase_operating_unit` module upstream, so purchase orders have no
-operating unit to read from.
+A model with an operating unit applies to invoice, bill and journal entry
+lines and sale order lines of that operating unit (purchase order lines
+with `account_analytic_auto_assign_purchase_operating_unit`). It
+is merged with the other models that apply, following the native rules: one
+model per analytic plan, the first one by sequence wins.

@@ -375,14 +375,12 @@ ul.auto-toc {
 !! source digest: sha256:076d72c194d187949ec044d2b4aa4ba289832cf15ab9758ff74b018c1b72dd77
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/account-analytic/tree/19.0/account_analytic_auto_assign_sale"><img alt="OCA/account-analytic" src="https://img.shields.io/badge/github-OCA%2Faccount--analytic-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/account-analytic-19-0/account-analytic-19-0-account_analytic_auto_assign_sale"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/account-analytic&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Adds a <strong>Project</strong> (analytic account) field to the sale order header.
-When set, it applies to every order line and is carried over to the
-resulting invoice automatically, without any recapture.</p>
-<p>Unlike the other <tt class="docutils literal">account_analytic_auto_assign_*</tt> modules, this one is
-not about matching rules on master data — it is a direct, per-order
-choice that merges with whatever other rules already apply (as long as
-the project lives in its own analytic plan, which is the convention the
-rest of this suite follows).</p>
+<p>Adds a <strong>Project</strong> (analytic account) to the sale order header. Every
+order line gets it in its analytic distribution, merged with what the
+native analytic distribution models already put there: only the plan of
+the project is replaced, the other columns are kept.</p>
+<p>The project is passed to the invoices of the order, see
+<tt class="docutils literal">account_analytic_auto_assign_account_move</tt>.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">

@@ -1,3 +1,2 @@
-Any invoice, sale, purchase or expense line using a product from that
-category will pick up its analytic account automatically, merged with
-whatever other rules also apply.
+Any invoice, sale, purchase or expense line with a product of the category
+or of one of its subcategories gets the analytic account of the model.

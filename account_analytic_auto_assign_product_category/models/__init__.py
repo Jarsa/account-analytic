@@ -1,1 +1,1 @@
-from . import product_category
+from . import account_analytic_distribution_model

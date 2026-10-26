@@ -375,18 +375,13 @@ ul.auto-toc {
 !! source digest: sha256:71d03f8eed50c1cb7808440009011b9fa5fa2fed29678a1fcf6d43bd5539739a
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
 <p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-Beta-yellow.png" /></a> <a class="reference external image-reference" href="http://www.gnu.org/licenses/agpl-3.0-standalone.html"><img alt="License: AGPL-3" src="https://img.shields.io/badge/license-AGPL--3-blue.png" /></a> <a class="reference external image-reference" href="https://github.com/OCA/account-analytic/tree/19.0/account_analytic_auto_assign_product_brand"><img alt="OCA/account-analytic" src="https://img.shields.io/badge/github-OCA%2Faccount--analytic-lightgray.png?logo=github" /></a> <a class="reference external image-reference" href="https://translation.odoo-community.org/projects/account-analytic-19-0/account-analytic-19-0-account_analytic_auto_assign_product_brand"><img alt="Translate me on Weblate" src="https://img.shields.io/badge/weblate-Translate%20me-F47D42.png" /></a> <a class="reference external image-reference" href="https://runboat.odoo-community.org/builds?repo=OCA/account-analytic&amp;target_branch=19.0"><img alt="Try me on Runboat" src="https://img.shields.io/badge/runboat-Try%20me-875A7B.png" /></a></p>
-<p>Extends <tt class="docutils literal">account_analytic_auto_assign</tt> so its rules can also match by
-<strong>product brand</strong>, driven by a required analytic account field directly
-on the brand, instead of a rule created by hand.</p>
-<p>Covers invoices/bills, sale orders, purchase orders and expenses.</p>
-<p><tt class="docutils literal">sale.order.line</tt>, <tt class="docutils literal">purchase.order.line</tt> and <tt class="docutils literal">hr.expense</tt> do not
-expose an overridable “get matching arguments” method the way
-<tt class="docutils literal">account.move.line</tt> does, so this module’s overrides of their compute
-call <tt class="docutils literal">super()</tt> first and only layer their own contribution on top,
-instead of rebuilding the field from scratch — this lets other sibling
-modules extending the same compute (for example
-<tt class="docutils literal">account_analytic_auto_assign_operating_unit</tt> on sale orders) compose
-correctly regardless of install order.</p>
+<p>Adds the <strong>Product Brand</strong> as a criterion of the native analytic
+distribution models (Accounting &gt; Configuration &gt; Analytic Distribution
+Models).</p>
+<p>A model with a brand applies to invoice, bill, journal entry, sale
+order, purchase order and expense lines whose product has that brand. It
+is merged with the other models that apply, following the native rules:
+one model per analytic plan, the first one by sequence wins.</p>
 <p><strong>Table of contents</strong></p>
 <div class="contents local topic" id="contents">
 <ul class="simple">
@@ -401,14 +396,16 @@ correctly regardless of install order.</p>
 </div>
 <div class="section" id="configuration">
 <h2><a class="toc-backref" href="#toc-entry-1">Configuration</a></h2>
-<p>Go to any Product Brand and fill in the (now required) <strong>Analytic
-Account</strong> field.</p>
+<ol class="arabic simple">
+<li>Go to <em>Accounting &gt; Configuration &gt; Analytic Distribution Models</em>.</li>
+<li>Create one model per brand, with the analytic account of the brand in
+the distribution.</li>
+</ol>
 </div>
 <div class="section" id="usage">
 <h2><a class="toc-backref" href="#toc-entry-2">Usage</a></h2>
-<p>Any invoice, sale order, purchase order or expense using a product from
-that brand will pick up its analytic account automatically, merged with
-whatever other rules also apply.</p>
+<p>Add a product of the brand to an invoice, a sale order, a purchase order
+or an expense: the line gets the analytic account of the brand.</p>
 </div>
 <div class="section" id="bug-tracker">
 <h2><a class="toc-backref" href="#toc-entry-3">Bug Tracker</a></h2>

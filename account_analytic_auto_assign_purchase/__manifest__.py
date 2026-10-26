@@ -10,7 +10,7 @@
     "website": "https://github.com/OCA/account-analytic",
     "license": "AGPL-3",
     "depends": [
-        "account_analytic_auto_assign",
+        "account_analytic_auto_assign_account_move",
         "purchase",
     ],
     "data": [

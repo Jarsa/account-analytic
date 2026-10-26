@@ -32,20 +32,14 @@ Account Analytic Auto Assign Product Brand
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Extends ``account_analytic_auto_assign`` so its rules can also match by
-**product brand**, driven by a required analytic account field directly
-on the brand, instead of a rule created by hand.
+Adds the **Product Brand** as a criterion of the native analytic
+distribution models (Accounting > Configuration > Analytic Distribution
+Models).
 
-Covers invoices/bills, sale orders, purchase orders and expenses.
-
-``sale.order.line``, ``purchase.order.line`` and ``hr.expense`` do not
-expose an overridable "get matching arguments" method the way
-``account.move.line`` does, so this module's overrides of their compute
-call ``super()`` first and only layer their own contribution on top,
-instead of rebuilding the field from scratch — this lets other sibling
-modules extending the same compute (for example
-``account_analytic_auto_assign_operating_unit`` on sale orders) compose
-correctly regardless of install order.
+A model with a brand applies to invoice, bill, journal entry, sale
+order, purchase order and expense lines whose product has that brand. It
+is merged with the other models that apply, following the native rules:
+one model per analytic plan, the first one by sequence wins.
 
 **Table of contents**
 
@@ -55,15 +49,15 @@ correctly regardless of install order.
 Configuration
 =============
 
-Go to any Product Brand and fill in the (now required) **Analytic
-Account** field.
+1. Go to *Accounting > Configuration > Analytic Distribution Models*.
+2. Create one model per brand, with the analytic account of the brand in
+   the distribution.
 
 Usage
 =====
 
-Any invoice, sale order, purchase order or expense using a product from
-that brand will pick up its analytic account automatically, merged with
-whatever other rules also apply.
+Add a product of the brand to an invoice, a sale order, a purchase order
+or an expense: the line gets the analytic account of the brand.
 
 Bug Tracker
 ===========

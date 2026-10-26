@@ -9,7 +9,7 @@
     "website": "https://github.com/OCA/account-analytic",
     "license": "AGPL-3",
     "depends": [
-        "account_analytic_auto_assign",
+        "account",
     ],
     "data": [
         "security/ir.model.access.csv",

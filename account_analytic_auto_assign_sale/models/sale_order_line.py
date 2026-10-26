@@ -9,17 +9,10 @@ class SaleOrderLine(models.Model):
 
     @api.depends("order_id.analytic_account_id")
     def _compute_analytic_distribution(self):  # pylint: disable=missing-return
-        # See account_analytic_auto_assign_operating_unit for why this
-        # calls super() first instead of fully rebuilding the field: it
-        # lets several sibling modules extending this same compute compose
-        # instead of each one overwriting the others' contribution. Odoo
-        # already carries the result over to the resulting invoice line on
-        # its own (see sale/models/account_move_line.py
-        # _related_analytic_distribution), so nothing else is needed for
-        # it to reach accounting.
         super()._compute_analytic_distribution()
         for line in self:
-            if not line.display_type and line.order_id.analytic_account_id:
-                line.analytic_distribution = (line.analytic_distribution or {}) | {
-                    str(line.order_id.analytic_account_id.id): 100.0
-                }
+            project = line.order_id.analytic_account_id
+            if project and not line.display_type:
+                line.analytic_distribution = project._auto_assign_merge(
+                    line.analytic_distribution
+                )

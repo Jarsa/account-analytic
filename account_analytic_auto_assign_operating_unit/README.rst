@@ -32,13 +32,15 @@ Account Analytic Auto Assign Operating Unit
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Extends ``account_analytic_auto_assign`` so its rules can also match by
-**operating unit** (branch), read from ``operating_unit_id`` on
-invoice/bill lines and on sale order lines.
+Adds the **Operating Unit** as a criterion of the native analytic
+distribution models (Accounting > Configuration > Analytic Distribution
+Models).
 
-Purchases are not covered: as of this writing there is no
-``purchase_operating_unit`` module upstream, so purchase orders have no
-operating unit to read from.
+A model with an operating unit applies to invoice, bill and journal
+entry lines and sale order lines of that operating unit (purchase order
+lines with ``account_analytic_auto_assign_purchase_operating_unit``). It
+is merged with the other models that apply, following the native rules:
+one model per analytic plan, the first one by sequence wins.
 
 **Table of contents**
 
@@ -48,15 +50,15 @@ operating unit to read from.
 Configuration
 =============
 
-Go to any Operating Unit and fill in the (now required) **Analytic
-Account** field.
+1. Go to *Accounting > Configuration > Analytic Distribution Models*.
+2. Create one model per operating unit, with the analytic account of the
+   branch in the distribution.
 
 Usage
 =====
 
-Set the Operating Unit on a sale order or on an invoice/bill; its lines
-will pick up the matching analytic account automatically, merged with
-whatever other rules also apply.
+Create an invoice, a sale order or a purchase order for an operating
+unit: its lines get the analytic account of that operating unit.
 
 Bug Tracker
 ===========

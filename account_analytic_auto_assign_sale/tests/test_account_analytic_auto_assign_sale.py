@@ -2,14 +2,17 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command
+from odoo.tests import tagged
 
-from odoo.addons.base.tests.common import BaseCommon
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestAccountAnalyticAutoAssignSale(BaseCommon):
+@tagged("post_install", "-at_install")
+class TestAccountAnalyticAutoAssignSale(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env.user.group_ids |= cls.env.ref("sales_team.group_sale_manager")
         cls.plan = cls.env["account.analytic.plan"].create(
             {"name": "Project Plan Test"}
         )
@@ -52,6 +55,7 @@ class TestAccountAnalyticAutoAssignSale(BaseCommon):
         )
         order.action_confirm()
         invoice = order._create_invoices()
+        self.assertEqual(invoice.analytic_account_id, self.project_account)
         line = invoice.invoice_line_ids.filtered(
             lambda line: line.display_type == "product"
         )
@@ -71,3 +75,31 @@ class TestAccountAnalyticAutoAssignSale(BaseCommon):
             }
         )
         self.assertFalse(order.order_line.analytic_distribution)
+
+    def test_project_merged_with_distribution_model(self):
+        branch_plan = self.env["account.analytic.plan"].create({"name": "Branch"})
+        branch = self.env["account.analytic.account"].create(
+            {"name": "Branch", "plan_id": branch_plan.id}
+        )
+        self.env["account.analytic.distribution.model"].create(
+            {
+                "product_id": self.product.id,
+                "analytic_distribution": {str(branch.id): 100.0},
+            }
+        )
+        order = self.env["sale.order"].create(
+            {
+                "partner_id": self.partner.id,
+                "analytic_account_id": self.project_account.id,
+                "order_line": [
+                    Command.create(
+                        {"product_id": self.product.id, "product_uom_qty": 1}
+                    )
+                ],
+            }
+        )
+        ((key, percentage),) = order.order_line.analytic_distribution.items()
+        self.assertEqual(
+            set(key.split(",")), {str(self.project_account.id), str(branch.id)}
+        )
+        self.assertEqual(percentage, 100.0)

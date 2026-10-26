@@ -2,14 +2,17 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command
+from odoo.tests import tagged
 
-from odoo.addons.base.tests.common import BaseCommon
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestAccountAnalyticDistributionTemplate(BaseCommon):
+@tagged("post_install", "-at_install")
+class TestAccountAnalyticDistributionTemplate(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.env.user.group_ids |= cls.env.ref("analytic.group_analytic_accounting")
         cls.plan_admin = cls.env["account.analytic.plan"].create(
             {"name": "Admin Plan Test"}
         )

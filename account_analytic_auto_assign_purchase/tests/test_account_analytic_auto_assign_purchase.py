@@ -2,11 +2,13 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import Command
+from odoo.tests import tagged
 
-from odoo.addons.base.tests.common import BaseCommon
+from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 
 
-class TestAccountAnalyticAutoAssignPurchase(BaseCommon):
+@tagged("post_install", "-at_install")
+class TestAccountAnalyticAutoAssignPurchase(AccountTestInvoicingCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -81,3 +83,28 @@ class TestAccountAnalyticAutoAssignPurchase(BaseCommon):
     def test_no_project_leaves_distribution_untouched(self):
         order = self._create_order(with_project=False)
         self.assertFalse(order.order_line.analytic_distribution)
+
+    def test_project_merged_with_distribution_model(self):
+        branch_plan = self.env["account.analytic.plan"].create({"name": "Branch"})
+        branch = self.env["account.analytic.account"].create(
+            {"name": "Branch", "plan_id": branch_plan.id}
+        )
+        self.env["account.analytic.distribution.model"].create(
+            {
+                "product_id": self.product.id,
+                "analytic_distribution": {str(branch.id): 100.0},
+            }
+        )
+        order = self._create_order(with_project=True)
+        ((key, percentage),) = order.order_line.analytic_distribution.items()
+        self.assertEqual(
+            set(key.split(",")), {str(self.project_account.id), str(branch.id)}
+        )
+        self.assertEqual(percentage, 100.0)
+
+    def test_bill_from_order_has_project(self):
+        self.product.purchase_method = "purchase"
+        order = self._create_order(with_project=True)
+        order.button_confirm()
+        order.action_create_invoice()
+        self.assertEqual(order.invoice_ids.analytic_account_id, self.project_account)
