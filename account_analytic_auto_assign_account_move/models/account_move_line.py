@@ -19,21 +19,3 @@ class AccountMoveLine(models.Model):
                 line.analytic_distribution = project._auto_assign_merge(
                     line.analytic_distribution
                 )
-
-    @api.onchange("product_id")
-    def _onchange_product_id_auto_assign_project(self):
-        move = self.move_id
-        if (
-            self.product_id
-            and move.move_type in ("in_invoice", "in_refund")
-            and not move.analytic_account_id
-        ):
-            return {
-                "warning": {
-                    "title": self.env._("Missing project"),
-                    "message": self.env._(
-                        "Set the project on the bill first, so its lines get"
-                        " it automatically."
-                    ),
-                }
-            }

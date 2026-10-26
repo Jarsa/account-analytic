@@ -79,12 +79,3 @@ class TestAccountAnalyticAutoAssignAccountMove(AccountTestInvoicingCommon):
         )
         credit_note = self.env["account.move"].browse(reversal.refund_moves()["res_id"])
         self.assertEqual(credit_note.analytic_account_id, self.project)
-
-    def test_warning_on_bill_without_project(self):
-        bill = self._invoice("in_invoice")
-        warning = bill.invoice_line_ids._onchange_product_id_auto_assign_project()
-        self.assertIn("warning", warning)
-        bill.analytic_account_id = self.project
-        self.assertFalse(
-            bill.invoice_line_ids._onchange_product_id_auto_assign_project()
-        )
