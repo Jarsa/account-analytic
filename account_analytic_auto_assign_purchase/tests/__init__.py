@@ -1,0 +1,1 @@
+from . import test_account_analytic_auto_assign_purchase
