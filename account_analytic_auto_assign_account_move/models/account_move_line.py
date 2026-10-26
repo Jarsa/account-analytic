@@ -10,6 +10,9 @@ class AccountMoveLine(models.Model):
     @api.depends("move_id.analytic_account_id")
     def _compute_analytic_distribution(self):  # pylint: disable=missing-return
         super()._compute_analytic_distribution()
+        self._auto_assign_apply_project()
+
+    def _auto_assign_apply_project(self):
         for line in self:
             project = line.move_id.analytic_account_id
             if project and line.display_type == "product":
