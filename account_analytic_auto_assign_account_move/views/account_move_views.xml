@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form.auto.assign.project</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <sheet position="before">
+                <div
+                    class="alert alert-warning mb-0"
+                    role="alert"
+                    groups="analytic.group_analytic_accounting"
+                    invisible="analytic_account_id or state != 'draft' or move_type not in ('in_invoice', 'in_refund')"
+                >
+                    Set the project of the bill, so its lines get it automatically.
+                </div>
+            </sheet>
+            <group id="header_left_group" position="inside">
+                <field
+                    name="analytic_account_id"
+                    groups="analytic.group_analytic_accounting"
+                    readonly="state != 'draft'"
+                />
+            </group>
+        </field>
+    </record>
+
+    <record id="view_account_invoice_filter" model="ir.ui.view">
+        <field name="name">account.move.search.auto.assign.project</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field
+                    name="analytic_account_id"
+                    groups="analytic.group_analytic_accounting"
+                />
+            </xpath>
+            <xpath expr="//search" position="inside">
+                <filter
+                    name="group_by_analytic_account_id"
+                    string="Project"
+                    context="{'group_by': 'analytic_account_id'}"
+                    groups="analytic.group_analytic_accounting"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>
