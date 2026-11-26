@@ -1,0 +1,7 @@
+odoo-addon-operating_unit @ git+https://github.com/Jarsa/operating-unit.git@20.0#subdirectory=operating_unit
+odoo-addon-analytic_operating_unit @ git+https://github.com/Jarsa/operating-unit.git@20.0#subdirectory=analytic_operating_unit
+odoo-addon-account_operating_unit @ git+https://github.com/Jarsa/operating-unit.git@20.0#subdirectory=account_operating_unit
+odoo-addon-sales_team_operating_unit @ git+https://github.com/Jarsa/operating-unit.git@20.0#subdirectory=sales_team_operating_unit
+odoo-addon-sale_operating_unit @ git+https://github.com/Jarsa/operating-unit.git@20.0#subdirectory=sale_operating_unit
+odoo-addon-purchase_operating_unit @ git+https://github.com/Jarsa/operating-unit.git@20.0#subdirectory=purchase_operating_unit
+odoo-addon-product_brand @ git+https://github.com/Jarsa/brand.git@20.0#subdirectory=product_brand

@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_account_analytic_distribution_template,access_account_analytic_distribution_template,account.analytic.distribution.template,analytic.group_analytic_accounting,crud,
+account_analytic_distribution_template_comp_rule,Analytic distribution template multi-company,account.analytic.distribution.template,,crud,"['|', ('company_id', '=', False), ('company_id', 'parent_of', company_ids)]"
